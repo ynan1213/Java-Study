@@ -96,7 +96,7 @@ public class JobScheduleHelper {
                                 if (nowTime > jobInfo.getTriggerNextTime() + PRE_READ_MS) {
                                     /**
                                      * 当前时间 大于 （任务的下一次触发时间 + 5s），说明任务过期了
-                                     * 过期策略有两种：忽略、立即执行一次
+                                     * 过期策略有两种：忽略、立即执行一次。 对应管理平台的调度过期策略
                                      */
                                     // 2.1、trigger-expire > 5s：pass && make next-trigger-time
                                     logger.warn(">>>>>>>>>>> xxl-job, schedule misfire, jobId = " + jobInfo.getId());
@@ -128,6 +128,7 @@ public class JobScheduleHelper {
                                     if (jobInfo.getTriggerStatus()==1 && nowTime + PRE_READ_MS > jobInfo.getTriggerNextTime()) {
 
                                         // 1、make ring second
+                                        // 得到的ringSecond在[0-59]之间
                                         int ringSecond = (int)((jobInfo.getTriggerNextTime()/1000)%60);
 
                                         // 2、push time ring
@@ -259,6 +260,7 @@ public class JobScheduleHelper {
                     try {
                         // second data
                         List<Integer> ringItemData = new ArrayList<>();
+                        // 获取到当前时间的秒数
                         int nowSecond = Calendar.getInstance().get(Calendar.SECOND);   // 避免处理耗时太长，跨过刻度，向前校验一个刻度；
                         for (int i = 0; i < 2; i++) {
                             /*

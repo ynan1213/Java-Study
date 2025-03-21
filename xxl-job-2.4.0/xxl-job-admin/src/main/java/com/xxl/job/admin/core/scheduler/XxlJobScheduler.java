@@ -38,7 +38,6 @@ public class XxlJobScheduler  {
 
         /**
          * 1、初始化registryOrRemoveThreadPool线程池。
-         * JobTriggerPoolHelper作用：
          * 2、启动定时任务，每30s执行一次，剔除90S未更新的执行器节点，并将存活的执行器节点地址更新到Group中；
          */
         // admin registry monitor run
