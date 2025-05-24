@@ -64,6 +64,7 @@ public class MockitoTestExecutionListener extends AbstractTestExecutionListener 
 	}
 
 	private void initMocks(TestContext testContext) {
+		// 测试类是否有org.mockito的注解
 		if (hasMockitoAnnotations(testContext)) {
 			MockitoAnnotations.initMocks(testContext.getTestInstance());
 		}

@@ -235,6 +235,14 @@ public class SpringBootTestContextBootstrapper extends DefaultTestContextBootstr
 		if (containsNonTestComponent(classes) || mergedConfig.hasLocations()) {
 			return classes;
 		}
+		/**
+		 * 遍历测试类的包以及子包，寻找带有@SpringBootConfiguration注解的类
+		 * 1.没有找到，下面会报错。
+		 * 2.如果找到多个，内部也会报错。
+		 * 这就是为什么直接使用在测试类上使用@SpringBootTest不指定classes属性，也能读取的原因。
+		 * 但是如果在/src/test下和启动类相同包路径也创建一个启动类，是会报错的，因为找到了两个。
+		 * 但是如果/src/test下的启动类全限定类名和启动类一样，就没问题，因为类加载器只会读取到一个，并且/src/test下的优先级高
+		 */
 		Class<?> found = new AnnotatedClassFinder(SpringBootConfiguration.class)
 				.findFromClass(mergedConfig.getTestClass());
 		Assert.state(found != null, "Unable to find a @SpringBootConfiguration, you need to use "

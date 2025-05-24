@@ -1,4 +1,4 @@
-package com.ynan.main;
+package com.ynan;
 
 import com.ynan.service.HelloService;
 import org.springframework.boot.SpringApplication;

@@ -289,14 +289,18 @@ configure(allprojects) { project ->
 			cacheChangingModulesFor 0, "seconds"
 		}
 		repositories {
-			mavenCentral()
+			maven { url 'https://maven.aliyun.com/repository/public'}
+			// 配置是生效了，但是仅仅是将原先创建在C:\Users\admin\.gradle\cache文件夹挪到了C:\Users\admin\.m2\repository\caches，
+			// 也就是说gradle的依赖仍在caches文件夹下，并没有用到maven的依赖，
+			// 因为gradle下载的依赖在C:\Users\admin\.m2\repository\caches\modules-2\files-2.1文件夹内都有计算了一个hash文件夹，也许和maven并不通用
+			mavenLocal()
 			//maven { url "https://repo.spring.io/libs-spring-framework-build" }
 			//maven { url "https://repo.spring.io/snapshot" } // Reactor
 			maven { url 'https://maven.aliyun.com/repository/spring'}
-			maven { url 'https://maven.aliyun.com/repository/public'}
 			maven { url 'https://maven.aliyun.com/nexus/content/groups/public/'}
 			maven { url 'https://maven.aliyun.com/nexus/content/groups/public/'}
 			maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter'}
+			mavenCentral()
 		}
 	}
 	configurations.all {
